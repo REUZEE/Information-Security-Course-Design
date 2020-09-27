@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pan1.dao.UserFileMapper">
+
+    <insert id="addUserFile" parameterType="UserFile">
+        insert into fileinfo (id, email, `size`, filename, `key`, iv, status) values (#{id}, #{email}, #{size}, #{filename}, #{key}, #{iv}, #{status})
+    </insert>
+
+    <insert id="addUserFileGroup">
+        insert into groupinfo (groupname, fileid, memory) values (#{groupname}, #{fileid}, #{memory})
+    </insert>
+
+    <delete id="deleteUserFile" parameterType="UserFile">
+        delete from fileinfo where id = #{id}
+    </delete>
+
+    <delete id="deleteUserFileinfo" parameterType="java.lang.String">
+        delete from groupinfo where fileid = #{fileid}
+    </delete>
+
+    <select id="queryfileidFileById" resultType="java.lang.String">
+        select fileid from groupinfo where fileid = #{fileid}
+    </select>
+
+    <select id="queryUserFileList" resultType="UserFile">
+        select * from fileinfo
+    </select>
+
+    <select id="queryUserFileByEmail" resultType="UserFile">
+        select * from fileinfo where email = #{email}
+    </select>
+
+    <select id="queryUserFileById" resultType="UserFile">
+        select * from fileinfo where id = #{id}
+    </select>
+
+    <select id="queryUserFileByGroupname" resultType="UserFile">
+        select * from fileinfo where id in (select fileid from usergroup where groupname = #{groupname})
+    </select>
+
+    <select id="queryMemoryByGroupname" resultType="java.lang.Double">
+        select distinct memory from groupinfo where groupname = #{groupname}
+    </select>
+
+    <update id="updateGroupMemory" parameterType="map">
+        update groupinfo set memory = #{memory} where groupname = #{groupname}
+    </update>
+
+    <update id="updateStatus" parameterType="map">
+        update fileinfo set status = #{status} where id = #{id}
+    </update>
+
+    <select id="queryfileidBygroupname" resultType="java.lang.String">
+        select fileid from groupinfo where groupname = #{groupname}
+    </select>
+
+</mapper>

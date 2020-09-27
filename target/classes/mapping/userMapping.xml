@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pan1.dao.UserMapper">
+
+    <select id="queryUserList" resultType="User">
+        select * from userinfo
+    </select>
+
+    <select id="queryUserByUsername" resultType="User">
+        select * from userinfo where username = #{username}
+    </select>
+
+    <select id="queryUserByEmail" resultType="User">
+        select * from userinfo where email = #{email}
+    </select>
+
+    <select id="queryGroupByGroupname" resultType="String">
+        select distinct groupname from groupinfo where groupname = #{groupname}
+    </select>
+
+    <select id="queryGroupByGroup" resultType="String">
+        select distinct `group` from userinfo where `group` = #{group}
+    </select>
+
+    <select id="queryFileidByGroupname" resultType="java.lang.String">
+        select fileid from groupinfo where groupname = #{groupname}
+    </select>
+
+    <insert id="addUser" parameterType="User">
+        insert into userinfo(email, username, password, `group`, memory) values (#{email}, #{username}, #{password}, #{group}, #{memory})
+    </insert>
+
+    <delete id="deleteUser" parameterType="User">
+        delete from userinfo where username = #{username}
+    </delete>
+
+    <update id="updateUsername" parameterType="User">
+        update userinfo set username=#{username} where username = #{oldUsername}
+    </update>
+
+    <update id="updateGroup" parameterType="User">
+        update userinfo set `group`=#{group} where username=#{username}
+    </update>
+
+    <update id="updateMemory" parameterType="User">
+        update userinfo set memory=#{memory} where username=#{username}
+    </update>
+
+    <update id="updatePassword" parameterType="User">
+        update userinfo set password=#{password} where email = #{email}
+    </update>
+
+</mapper>
